@@ -1,0 +1,200 @@
+:root {
+    /** c-prefix: color
+        i-prefix: image
+        f-prefix: font
+    */
+    --c-dark-blue: #171738;
+    --c-blue: #0AB6FF;
+    --c-light-blue: #DAEDFB;
+    --c-pink: #F8DDF1;
+    --c-violet: #B47EB3;
+    --c-beige: #F7F4EF;
+
+    --c-background: var(--c-beige);
+    --c-elisa: var(--c-violet);
+    --c-saar: var(--c-blue);
+    --c-text: var(--c-dark-blue);
+
+    --i-raw-border-thickness: 1rem;
+    --i-raw-size: 15rem;    
+    --i-raw-spacing: 2rem;
+
+    /** Set limits in case the user's root font-size is really big. */
+    --i-border-thickness: min(var(--i-raw-border-thickness), 5vw);
+    --i-size: min(var(--i-raw-size), 35vw);
+    --i-spacing: min(var(--i-raw-spacing), 5vw);
+    --i-offset: -5rem;
+
+    /** Font families taken from Modern Font Stacks 
+        https://modernfontstacks.com/
+    */
+    --f-fam-system: system-ui, sans-serif;
+    --f-fam-geometric:
+        Avenir,
+        Montserrat,
+        Corbel,
+        'URW Gothic',
+        source-sans-pro,
+        sans-serif;
+
+    --f-size-header: 3rem;
+    --f-size-large: 2rem;
+    --f-line-height: 1.5;
+    --f-line-height-large: 1.1;
+
+    --description-height:
+        calc(2 * var(--f-line-height-large) * var(--f-size-large));
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --c-background: var(--c-dark-blue);
+        --c-text: white;
+    }
+}
+
+body {
+    color: var(--c-text);
+    background-color: var(--c-background);
+    font-family: var(--f-fam-system);
+    padding-bottom: 25vh;
+}
+
+header {
+    align-items: center;
+    color: var(--c-text);
+    display: flex;
+    font-family: var(--f-fam-geometric);
+    min-height: 6rem;
+    justify-content: center;
+    line-height: var(--f-line-height-large);
+    padding: 0.5rem;
+}
+
+h1 {
+    /** This needs to be set on the h1.
+        If I tried setting it on the header, it wouldn't work as expected
+        because the default stylesheet (on Chrome) sets h1 font-size to 2em.
+    */
+    font-size: var(--f-size-header);
+    /** This is only really necessary for when the font-size is really big. */
+    text-align: center;
+}
+
+header, main {
+    padding: 1rem;
+}
+
+#image-descriptions {
+    display: grid;
+    grid-template:
+        "elisa-picture"
+        "elisa-description" var(--description-height)
+        "saar-description" var(--description-height)
+        "saar-picture";
+}
+
+#elisa-description,
+#saar-description {
+    line-height: var(--f-line-height-large);
+    width: 100%;
+}
+
+#image-descriptions img {
+    border-radius: calc(var(--i-size) / 4);
+    height: var(--i-size);
+    justify-self: center;
+    margin: var(--i-spacing);
+    width: var(--i-size);
+}
+
+#image-descriptions img[alt="Elisa"] {
+    border-image:
+        conic-gradient(var(--c-elisa) 0 0)
+        0 0 0 1/0 50%/var(--i-border-thickness)
+        100vw;
+    grid-area: elisa-picture;
+    margin-right: var(--i-offset);
+    object-fit: cover;
+    outline: var(--i-border-thickness) solid var(--c-elisa);
+}
+
+#image-descriptions img[alt="Saar"] {
+    border-image:
+        conic-gradient(var(--c-saar) 0 0)
+        0 1 0 0/0 50%/var(--i-border-thickness)
+        100vw;
+    grid-area: saar-picture;
+    margin-left: var(--i-offset);
+    outline: var(--i-border-thickness) solid var(--c-saar);
+}
+
+#image-descriptions p {
+    font-size: var(--f-size-large);
+    font-weight: bold;
+    text-align: center;
+}
+
+#elisa-description {
+    align-self: self-end;
+    grid-area: elisa-description;
+    justify-self: center;
+}
+
+#elisa-description span {
+    color: var(--c-elisa);
+}
+
+#saar-description {
+    grid-area: saar-description;
+    justify-self: center;
+}
+
+#saar-description span {
+    color: var(--c-saar);
+}
+
+@media (min-width: 800px) {
+    :root {
+        --i-raw-size: 20rem;
+    }
+
+    #image-descriptions {
+        grid-template:
+            "elisa-picture saar-picture"
+            "elisa-description saar-description" var(--description-height) / 1fr 1fr;
+    }
+    
+    #image-descriptions img[alt="Elisa"] {
+        justify-self: flex-end;
+        margin-right: var(--i-spacing);
+    }
+
+    #image-descriptions img[alt="Saar"] {
+        justify-self: flex-start;
+        margin-left: var(--i-spacing);
+    }
+
+    #elisa-description {
+        align-self: self-start;
+        justify-self: flex-end;
+        margin-right: var(--i-spacing);
+        width: var(--i-size);
+    }
+
+    #saar-description {
+        justify-self: flex-start;
+        margin-left: var(--i-spacing);
+        width: var(--i-size);
+    }
+}
+
+#getting-married {
+    margin-top: 5rem;
+}
+
+#getting-married p {
+    font-size: var(--f-size-large);
+    font-weight: bold;
+    text-align: center;
+}
